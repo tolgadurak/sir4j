@@ -30,13 +30,13 @@ public class SensorsReader extends Application {
 	private static final SystemInfo si = new SystemInfo();
 	private static final HardwareAbstractionLayer hal = si.getHardware();
 	private static final Sensors sensors = hal.getSensors();
-	private double cpuTemperature = 0;
-	private int samplingResolutionInMillis = 100;
-	private int chartUpdateResolutionInMillis = 1000;
+	private double cpuTemperature = sensors.getCpuTemperature();
+	private static final int SAMPLING_RESOLUTION = 100;
+	private static final int CHART_UPDATE_RESOULUTION = 1000;
 
 	public SensorsReader() {
-		KeyFrame frame = new KeyFrame(Duration.millis(chartUpdateResolutionInMillis), (ActionEvent actionEvent) -> {
-			updateChartByCpuTemperature(sensors);
+		KeyFrame frame = new KeyFrame(Duration.millis(CHART_UPDATE_RESOULUTION), (ActionEvent actionEvent) -> {
+			updateChartByCpuTemperature();
 		});
 		animation = new Timeline();
 		animation.getKeyFrames().add(frame);
@@ -45,17 +45,10 @@ public class SensorsReader extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		validateSettings();
-		primaryStage.setScene(new Scene(createInitialContent(sensors)));
+		primaryStage.setScene(new Scene(createInitialContent()));
 		primaryStage.show();
 		play();
 		submitCpuTemperatureReaderTask();
-	}
-
-	public void validateSettings() {
-		if (samplingResolutionInMillis > 1000 || samplingResolutionInMillis > chartUpdateResolutionInMillis) {
-			throw new RuntimeException("Invalid settings detected at first");
-		}
 	}
 
 	public void play() {
@@ -69,16 +62,14 @@ public class SensorsReader extends Application {
 			public void run() {
 				cpuTemperature = sensors.getCpuTemperature();
 			}
-		}, 0, samplingResolutionInMillis);
+		}, 0, SAMPLING_RESOLUTION);
 	}
 
-	public Parent createInitialContent(Sensors sensors) {
-		double cpuTemperature = sensors.getCpuTemperature();
+	public Parent createInitialContent() {
 		xAxis = new NumberAxis(0, 60, 3);
 		xAxis.setMinorTickVisible(false);
 		xAxis.setTickLabelsVisible(false);
 		xAxis.setTickMarkVisible(false);
-
 		final NumberAxis yAxis = new NumberAxis(40, 100, 10);
 		chart = new LineChart<>(xAxis, yAxis);
 		chart.setId("cpuTempChart");
@@ -98,7 +89,7 @@ public class SensorsReader extends Application {
 		return chart;
 	}
 
-	private void updateChartByCpuTemperature(Sensors sensors) {
+	private void updateChartByCpuTemperature() {
 		second++;
 		tempDataSeries.getData().add(new Data<Number, Number>(second, cpuTemperature));
 		tempDataSeries.setName(String.format("%.1f°C", cpuTemperature));
