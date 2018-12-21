@@ -1,37 +1,37 @@
-#cpuTempChart .series0.chart-series-line {
+.series0.chart-series-line {
     -fx-stroke: red;
-    -fx-stroke-width: 1px;
+    -fx-stroke-width: 1.0px;
 }
-#cpuTempChart .series1.chart-series-line {
+.series1.chart-series-line {
     -fx-stroke: red;
-    -fx-stroke-width: 1px;
+    -fx-stroke-width: 1.0px;
 }
-#cpuTempChart .axis:top {
+.axis:top {
     -fx-border-color: transparent;
 }
 
-#cpuTempChart .axis:right {
+.axis:right {
     -fx-border-color: transparent;
 }
 
-#cpuTempChart .axis:bottom {
+.axis:bottom {
     -fx-border-color: transparent;
 }
 
-#cpuTempChart .axis:left {
+.axis:left {
     -fx-border-color: transparent;
 }
 
-#cpuTempChart .chart-vertical-grid-lines {
+.chart-vertical-grid-lines {
     -fx-stroke: transparent;
 }
 
-#cpuTempChart .chart-vertical-zero-line,
+.chart-vertical-zero-line,
 .chart-horizontal-zero-line {
-    -fx-stroke: derive(-fx-background,-10%);
+    -fx-stroke: derive(-fx-background,-10.0%);
     -fx-stroke-dash-array: 0.25em, 0.25em; 
 }
 
-#cpuTempChart .chart-plot-background {
+.chart-plot-background {
     -fx-background-color: white;
 }
