@@ -21,6 +21,24 @@ public class SirChart extends LineChart<Number, Number> {
 		this.getData().add(series);
 	}
 
+	public SirChart(NumberAxis xAxis, NumberAxis yAxis, Data<Number, Number> initialData, SirChartType sirChartType) {
+		this(xAxis, yAxis, sirChartType);
+		this.addDataToSeries(initialData);
+	}
+
+	public void pushXAxisForward(int tickCount) {
+		this.xAxis.setLowerBound(this.xAxis.getLowerBound() + tickCount);
+		this.xAxis.setUpperBound(this.xAxis.getUpperBound() + tickCount);
+	}
+
+	/**
+	 * 
+	 * @throws IndexOutOfBoundsException
+	 */
+	public void removeFirstDataOfSeries() throws IndexOutOfBoundsException {
+		this.series.getData().remove(0);
+	}
+
 	public void setNameOfSeries(String value) {
 		this.series.setName(value);
 	}

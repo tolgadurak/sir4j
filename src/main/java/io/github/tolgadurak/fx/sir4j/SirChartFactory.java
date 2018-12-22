@@ -26,10 +26,11 @@ public class SirChartFactory {
 		final NumberAxis xAxis = new NumberAxis(0, 60, 3);
 		final NumberAxis yAxis = new NumberAxis(yAxisLowerBound, yAxisUpperBound, yAxisTickUnit);
 		final String sensorReaderChartCss = getClass().getResource("ChartStyleForSensorsReader.css").toExternalForm();
+		Data<Number, Number> initialData = new Data<Number, Number>(0, initialValue);
 		xAxis.setMinorTickVisible(false);
 		xAxis.setTickLabelsVisible(false);
 		xAxis.setTickMarkVisible(false);
-		SirChart sirChart = new SirChart(xAxis, yAxis, sirChartType);
+		SirChart sirChart = new SirChart(xAxis, yAxis, initialData, sirChartType);
 		sirChart.setId(id);
 		sirChart.getStylesheets().add(sensorReaderChartCss);
 		sirChart.setAnimated(false);
@@ -40,7 +41,6 @@ public class SirChartFactory {
 		yAxis.setTickLabelFormatter(new DefaultFormatter(yAxis, null, yAxisTickLabelSuffix));
 		sirChart.setVerticalZeroLineVisible(false);
 		sirChart.setNameOfSeries(String.format("%.1f" + yAxisTickLabelSuffix, initialValue));
-		sirChart.addDataToSeries(new Data<Number, Number>(0, initialValue));
 		sirChartList.add(sirChart);
 		return sirChart;
 	}
